@@ -27,21 +27,36 @@ uv add <package>
 uv run <command>
 ```
 
-## 린팅 & 타입 검사
+## 커밋 전 자동 검사 순서
 
-코드 작성 후 반드시 아래 명령을 통과해야 한다.
+커밋 시 pre-commit이 아래 순서로 강제 실행된다. 모두 통과해야 커밋된다.
+
+| 단계 | 도구 | 목적 |
+|------|------|------|
+| 1 | `ruff check --fix` | 린트 오류 자동 수정 |
+| 2 | `ruff format` | 코드 포맷 통일 |
+| 3 | `mypy app/` | 정적 타입 검사 |
+| 4 | `pytest tests/` | 테스트 통과 확인 |
+| 5 | `pylint app/` | **코드 중복 감지** (테스트 통과 후) |
 
 ```bash
-uv run ruff check .          # 린트 검사
-uv run ruff check --fix .    # 자동 수정
+# 수동 실행
+uv run ruff check --fix .    # 린트
 uv run ruff format .         # 포맷
 uv run mypy app/             # 타입 검사
+uv run pytest tests/         # 테스트
+uv run pylint app/           # 중복 코드 검사
 ```
+
+## 코드 품질 규칙
 
 - `print()` 사용 금지 (T20) — 로깅 사용
 - 모든 함수에 타입 힌트 필수 (ANN)
 - 주석 처리된 코드 금지 (ERA)
 - timezone-naive datetime 금지 (DTZ)
+- 함수 복잡도(McCabe) 10 초과 금지 (C90) → **리팩토링 필수**
+- 함수 인자 최대 7개 (PLR) → 초과 시 객체로 묶기
+- **6줄 이상 중복 코드 금지** (pylint R0801) → **공통 함수/모듈로 추출**
 
 ## 서버 실행
 

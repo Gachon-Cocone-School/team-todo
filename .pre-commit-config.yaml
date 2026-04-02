@@ -1,7 +1,11 @@
 repos:
   - repo: local
     hooks:
-      # 1. Ruff 린트 검사 및 자동 수정
+      # -----------------------------------------------------------------------
+      # STEP 1: 린트 & 포맷
+      # -----------------------------------------------------------------------
+
+      # Ruff 린트 검사 및 자동 수정
       - id: ruff-check
         name: ruff check
         entry: uv run ruff check --fix
@@ -9,7 +13,7 @@ repos:
         types: [python]
         pass_filenames: true
 
-      # 2. Ruff 포맷 검사
+      # Ruff 코드 포맷
       - id: ruff-format
         name: ruff format
         entry: uv run ruff format
@@ -17,7 +21,11 @@ repos:
         types: [python]
         pass_filenames: true
 
-      # 3. Mypy 타입 검사 (app/ 폴더가 존재할 때만 실행)
+      # -----------------------------------------------------------------------
+      # STEP 2: 타입 검사
+      # -----------------------------------------------------------------------
+
+      # Mypy 정적 타입 검사 (app/ 폴더가 존재할 때만 실행)
       - id: mypy
         name: mypy
         entry: bash -c '[ -d app ] && uv run mypy app/ || echo "app/ 없음, mypy 건너뜀"'
@@ -25,7 +33,11 @@ repos:
         types: [python]
         pass_filenames: false
 
-      # 4. Pytest 테스트 실행 (테스트 없음은 허용, 실패만 차단)
+      # -----------------------------------------------------------------------
+      # STEP 3: 테스트
+      # -----------------------------------------------------------------------
+
+      # Pytest (테스트 없음은 허용, 실패만 차단)
       - id: pytest
         name: pytest
         entry: bash -c 'uv run pytest tests/ -v --tb=short; code=$?; [ $code -eq 5 ] && exit 0 || exit $code'
@@ -33,3 +45,16 @@ repos:
         types: [python]
         pass_filenames: false
         always_run: true
+
+      # -----------------------------------------------------------------------
+      # STEP 4: 리팩토링 강제 (테스트 통과 후)
+      # -----------------------------------------------------------------------
+
+      # 코드 복잡도 검사 (ruff C90, PLR — 이미 ruff-check에 포함)
+      # 아래는 ruff가 감지하지 못하는 코드 중복(duplicate-code)을 pylint로 별도 검사
+      - id: pylint-duplicate-code
+        name: pylint duplicate-code
+        entry: bash -c '[ -d app ] && uv run pylint app/ || echo "app/ 없음, pylint 건너뜀"'
+        language: system
+        types: [python]
+        pass_filenames: false

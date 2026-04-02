@@ -14,6 +14,7 @@ dependencies = [
 dev = [
     "mypy>=1.20.0",
     "pre-commit>=4.5.1",
+    "pylint>=4.0.5",
     "pytest>=9.0.2",
     "ruff>=0.15.8",
 ]
@@ -52,6 +53,7 @@ select = [
     "PL",   # pylint
     "PERF", # perflint (성능 안티패턴)
     "FURB", # refurb (관용적 Python 패턴)
+    "C90",  # mccabe (함수 복잡도 제한)
 ]
 ignore = [
     "E501",    # line-too-long (formatter에 위임)
@@ -78,6 +80,14 @@ unfixable = []
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10  # 함수 복잡도 10 초과 시 오류
+
+[tool.ruff.lint.pylint]
+max-args = 7          # 함수 인자 최대 7개
+max-returns = 4       # return 문 최대 4개
+max-branches = 12     # 분기 최대 12개
 
 [tool.ruff.lint.flake8-bugbear]
 extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path"]
@@ -114,6 +124,16 @@ plugins = ["pydantic.mypy"]
 init_forbid_extra = true
 init_typed = true
 warn_required_dynamic_aliases = true
+
+# ---------------------------------------------------------------------------
+# Pylint - 코드 중복 감지 전용
+# ---------------------------------------------------------------------------
+[tool.pylint.main]
+disable = "all"
+enable = [
+    "duplicate-code",  # 코드 중복 감지 (R0801)
+]
+min-similarity-lines = 6  # 6줄 이상 중복 시 오류
 
 # ---------------------------------------------------------------------------
 # Pytest
