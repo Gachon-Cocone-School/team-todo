@@ -40,7 +40,12 @@ team-todo/
 ├── docs/
 │   ├── PRD.md
 │   ├── TSD.md
-│   └── DATABASE.md
+│   ├── DATABASE.md
+│   ├── PRD_CLI.md
+│   ├── TSD_CLI.md
+│   ├── TEST_CASES.md
+│   └── TEST_CASE_CLI.md
+├── README.md
 └── CLAUDE.md
 ```
 
@@ -188,13 +193,15 @@ uv run mypy app/
 | PERF | 성능 안티패턴 |
 | FURB | 관용적 Python 패턴 |
 
-## 구현 순서
+## 개발 순서 가이드
 
-1. 프로젝트 세팅 (폴더 구조, uv 환경 초기화)
-2. `database.py` - SQLAlchemy 엔진/세션 설정
-3. `models/` - ORM 모델 정의
+의존성 방향을 따라 아래 순서로 구현한다.
+
+1. 프로젝트 세팅 — 폴더 구조, uv 환경 초기화
+2. `database.py` — SQLAlchemy 엔진/세션 설정
+3. `models/` — ORM 모델 정의
 4. Alembic 초기화 및 마이그레이션
-5. `schemas/` - Pydantic 스키마 정의
-6. `crud/` - CRUD 함수 구현
-7. `routers/` - 라우터 구현 (Users → Todos → Comments → Tags)
-8. `main.py` - 라우터 등록 및 앱 설정
+5. `schemas/` — Pydantic 스키마 정의
+6. `crud/` — CRUD 함수 구현
+7. `routers/` — 라우터 구현 (Users → Todos → Comments → Tags 순)
+8. `main.py` — 라우터 등록 및 앱 설정

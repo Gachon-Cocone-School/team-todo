@@ -80,6 +80,8 @@ app/
 
 ## 참고 문서
 
-- [PRD](docs/PRD.md) - 기능 요구사항 및 API 엔드포인트
-- [TSD](docs/TSD.md) - 기술 명세 및 레이어 구조
+- [PRD](docs/PRD.md) - 백엔드 기능 요구사항 및 API 엔드포인트
+- [TSD](docs/TSD.md) - 백엔드 기술 명세 및 레이어 구조
 - [DATABASE](docs/DATABASE.md) - DB 테이블 설계 및 ERD
+- [PRD_CLI](docs/PRD_CLI.md) - CLI 기능 요구사항 및 커맨드 레퍼런스
+- [TSD_CLI](docs/TSD_CLI.md) - CLI 기술 명세

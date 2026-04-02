@@ -12,6 +12,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: true
+        exclude: ^ttodo-cli/
 
       # Ruff 코드 포맷
       - id: ruff-format
@@ -20,6 +21,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: true
+        exclude: ^ttodo-cli/
 
       # -----------------------------------------------------------------------
       # STEP 2: 타입 검사

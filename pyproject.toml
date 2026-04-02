@@ -12,6 +12,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "mypy>=1.20.0",
     "pre-commit>=4.5.1",
     "pylint>=4.0.5",
@@ -25,6 +26,7 @@ dev = [
 [tool.ruff]
 target-version = "py311"
 line-length = 88
+exclude = ["ttodo-cli"]
 
 [tool.ruff.lint]
 select = [
@@ -57,11 +59,12 @@ select = [
 ]
 ignore = [
     "E501",    # line-too-long (formatter에 위임)
-    "ANN101",  # self 타입 힌트 (Python 3.11+에서 deprecated)
-    "ANN102",  # cls 타입 힌트 (Python 3.11+에서 deprecated)
     "S101",    # assert 사용 허용 (테스트 코드)
     "EM101",   # 문자열 리터럴 예외 메시지 허용
     "EM102",   # f-string 예외 메시지 허용
+    "TC001",   # FastAPI/Pydantic 런타임 임포트 필요
+    "TC002",   # FastAPI/Pydantic 런타임 임포트 필요
+    "TC003",   # FastAPI/Pydantic 런타임 임포트 필요
 ]
 fixable = ["ALL"]
 unfixable = []
@@ -72,6 +75,8 @@ unfixable = []
     "ARG",     # 미사용 인자 허용 (fixture)
     "ANN",     # 타입 힌트 강제 완화
     "PLR2004", # magic value 허용
+    "T20",     # print 허용 (stress_test 출력)
+    "PLR0915", # 구문 수 제한 완화 (stress_test main 함수)
 ]
 "alembic/**/*.py" = [
     "ANN",     # 타입 힌트 강제 완화
