@@ -1,0 +1,123 @@
+[project]
+name = "team-todo"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi>=0.135.3",
+    "sqlalchemy>=2.0.48",
+    "uvicorn>=0.42.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.20.0",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.2",
+    "ruff>=0.15.8",
+]
+
+# ---------------------------------------------------------------------------
+# Ruff - Linter & Formatter
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade (최신 Python 문법 강제)
+    "B",    # flake8-bugbear (잠재적 버그)
+    "A",    # flake8-builtins (내장 이름 재정의 방지)
+    "C4",   # flake8-comprehensions (불필요한 컴프리헨션)
+    "SIM",  # flake8-simplify (코드 단순화)
+    "TC",   # flake8-type-checking (타입 임포트 분리)
+    "ANN",  # flake8-annotations (타입 힌트 강제)
+    "S",    # flake8-bandit (보안 취약점)
+    "ARG",  # flake8-unused-arguments (미사용 인자)
+    "RET",  # flake8-return (return 문 일관성)
+    "RUF",  # ruff 자체 규칙
+    "ERA",  # eradicate (주석 처리된 코드 금지)
+    "T20",  # flake8-print (print 문 금지)
+    "PIE",  # flake8-pie (불필요한 패턴)
+    "ISC",  # flake8-implicit-str-concat (암묵적 문자열 연결)
+    "DTZ",  # flake8-datetimez (timezone-aware datetime 강제)
+    "EM",   # flake8-errmsg (예외 메시지 f-string 금지)
+    "PL",   # pylint
+    "PERF", # perflint (성능 안티패턴)
+    "FURB", # refurb (관용적 Python 패턴)
+]
+ignore = [
+    "E501",    # line-too-long (formatter에 위임)
+    "ANN101",  # self 타입 힌트 (Python 3.11+에서 deprecated)
+    "ANN102",  # cls 타입 힌트 (Python 3.11+에서 deprecated)
+    "S101",    # assert 사용 허용 (테스트 코드)
+    "EM101",   # 문자열 리터럴 예외 메시지 허용
+    "EM102",   # f-string 예외 메시지 허용
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",    # assert 허용
+    "ARG",     # 미사용 인자 허용 (fixture)
+    "ANN",     # 타입 힌트 강제 완화
+    "PLR2004", # magic value 허용
+]
+"alembic/**/*.py" = [
+    "ANN",     # 타입 힌트 강제 완화
+    "ERA",     # 주석 허용
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+# ---------------------------------------------------------------------------
+# Mypy - 정적 타입 검사
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+check_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+no_implicit_reexport = true
+disallow_untyped_decorators = false  # FastAPI 데코레이터 호환
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+# ---------------------------------------------------------------------------
+# Pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

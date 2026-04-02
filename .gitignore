@@ -1,0 +1,40 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# uv
+.uv/
+
+# 테스트 / 커버리지
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# 린터
+.ruff_cache/
+
+# 환경변수
+.env
+.env.*
+
+# DB
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
